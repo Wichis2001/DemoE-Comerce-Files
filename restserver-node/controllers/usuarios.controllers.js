@@ -1,4 +1,7 @@
 const { response, request } = require('express')
+const bcryptjs = require('bcryptjs');
+
+const { Usuario } = require('../models');
 
 const usuariosGet = ((req = request, res = response) => {
     const {q, nombre = 'No name', apikey, page = 1, limit} = req.query;
@@ -12,15 +15,24 @@ const usuariosGet = ((req = request, res = response) => {
     });
 });
 
-const usuariosPost = ((req, res = response) => {
+const usuariosPost = ( async (req, res = response) => {
+
     //!Pequeña validación
-    const {nombre, edad} = req.body;
+    const { nombre, password, rol } = req.body;
+    const usuario = new Usuario( { nombre, password, rol } );
+
+    //?Encriptar la contraseña
+    //Número de vueltas que se daran para hacer más complicada su desincriptación, por defecto en 10
+    const salt = bcryptjs.genSaltSync();
+    usuario.password = bcryptjs.hashSync( password, salt );
+
+    //*Guardar en DB
+    await usuario.save();
 
     res.status(201).json({
-        msg: 'post Api - controlador',
-        nombre,
-        edad
-    });
+        usuario
+    })
+    
 });
 
 const usuariosPut  = ((req, res = response) => {
