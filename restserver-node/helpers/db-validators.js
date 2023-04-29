@@ -19,7 +19,19 @@ const usernameExiste = async ( nombre = '' ) => {
     }
 }
 
+const coleccionesPermitidas = ( coleccion = '', coleccionesPermitidas = [] ) => {
+
+    const incluida = coleccionesPermitidas.includes( coleccion );
+
+    if( !incluida ){
+        throw new Error(`La colección ${ coleccion } no es permitida, ${ coleccionesPermitidas }`)
+    }
+
+    return true;
+}
+
 module.exports = {
+    coleccionesPermitidas,
     esRolValido,
     usernameExiste
 }

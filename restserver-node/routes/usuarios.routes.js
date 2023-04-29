@@ -10,7 +10,7 @@ const { usuariosGet,
         usuariosPost,
         usuariosPut,
         usuariosPatch,
-        usuariosDelete } = require('../controllers/usuarios.controllers');
+        usuariosDelete } = require('../controllers/usuarios.controller');
 
 const router = Router();
 

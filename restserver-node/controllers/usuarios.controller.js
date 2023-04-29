@@ -32,7 +32,6 @@ const usuariosPost = ( async (req, res = response) => {
     res.status(201).json({
         usuario
     })
-    
 });
 
 const usuariosPut  = ((req, res = response) => {
