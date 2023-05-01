@@ -1,9 +1,11 @@
 const fs   = require('fs');
+const path = require('path');
 
 const { response } = require('express');
 
 const { subirArchivo } = require('../helpers');
-const { Usuario } = require('../models');
+const { Usuario,
+        Producto } = require('../models');
 
 const cargarArchivo = async ( req, res = response ) => {
 
@@ -25,26 +27,18 @@ const actualizarImagen = async ( req, res = response ) => {
   let modelo;
 
   switch ( coleccion ) {
-      case 'usuarios':
-
-        modelo = await Usuario.findById( id );
-        if( !modelo ){
-          return res.status( 400 ).json({ msg: `No existe un usuario con el id: ${ id }`})
-        }
-
-      break;
 
     case 'productos':
 
         modelo = await Producto.findById( id );
         if( !modelo ){
-          return res.status( 400 ).json({ msg: `No existe un producto con el id: ${ id }`})
+          return res.status( 400 ).json({ msg: `No existe un producto con el id: ${ id }`, ok: false })
         }
 
       break;
 
     default:
-      return res.status(500).json({ msg: 'Se me olvido validar esta colección' });
+      return res.status(500).json({ msg: 'Se me olvido validar esta colección', ok: false });
   }
 
   try{
@@ -75,26 +69,18 @@ const mostrarImagen = async ( req, res = response ) => {
   let modelo;
 
   switch ( coleccion ) {
-      case 'usuarios':
-
-        modelo = await Usuario.findById( id );
-        if( !modelo ){
-          return res.status( 400 ).json({ msg: `No existe un usuario con el id: ${ id }`})
-        }
-
-      break;
 
     case 'productos':
 
         modelo = await Producto.findById( id );
         if( !modelo ){
-          return res.status( 400 ).json({ msg: `No existe un producto con el id: ${ id }`})
+          return res.status( 400 ).json({ msg: `No existe un producto con el id: ${ id }`, ok: false})
         }
 
       break;
 
     default:
-      return res.status(500).json({ msg: 'Se me olvido validar esta colección' });
+      return res.status(500).json({ msg: 'Se me olvido validar esta colección', ok: false });
   }
 
   if( modelo.img ){

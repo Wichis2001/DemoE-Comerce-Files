@@ -5,6 +5,7 @@ import { Error400PageComponent } from './shared/pages/error400-page/error400-pag
 import { Error401PageComponent } from './shared/pages/error401-page/error401-page.component';
 import { Error404PageComponent } from './shared/pages/error404-page/error404-page.component';
 import { Error500PageComponent } from './shared/pages/error500-page/error500-page.component';
+import { ValidarTokenGuard } from './guards/validar-token.guard';
 
 
 const routes: Routes = [
@@ -14,7 +15,9 @@ const routes: Routes = [
   },
   {
     path: 'user',
-    loadChildren: () => import('./user/user.module').then( m => m.UserModule)
+    loadChildren: () => import('./user/user.module').then( m => m.UserModule),
+    canActivate: [ ValidarTokenGuard ],
+    canLoad: [ ValidarTokenGuard ]
   },
   {
     path: '400',

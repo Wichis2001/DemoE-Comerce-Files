@@ -6,6 +6,7 @@ import { SalePageComponent } from './pages/sale-page/sale-page.component';
 import { ListPageComponent } from './pages/list-page/list-page.component';
 import { ShoppingPageComponent } from './pages/shopping-page/shopping-page.component';
 import { OrderPageComponent } from './pages/order-page/order-page.component';
+import { SearchPageComponent } from './pages/search-page/search-page.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,10 @@ const routes: Routes = [
       {
         path: 'order',
         component: OrderPageComponent
+      },
+      {
+        path: 'search',
+        component: SearchPageComponent
       },
       {
         path: '**',

@@ -19,6 +19,7 @@ const usuariosPost = ( async (req, res = response) => {
 
     //!Pequeña validación
     const { nombre, password, rol } = req.body;
+
     const usuario = new Usuario( { nombre, password, rol } );
 
     //?Encriptar la contraseña
@@ -30,7 +31,9 @@ const usuariosPost = ( async (req, res = response) => {
     await usuario.save();
 
     res.status(201).json({
-        usuario
+        usuario,
+        token,
+        ok: true
     })
 });
 
@@ -54,6 +57,9 @@ const usuariosDelete = ((req, res = response) => {
         msg: 'delete Api - controlador'
     });
 });
+
+
+
 
 
 module.exports = {

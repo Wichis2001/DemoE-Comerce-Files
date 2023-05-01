@@ -1,4 +1,5 @@
 const { Role,
+        Categoria,
         Usuario } = require('../models')
 
 const esRolValido = async ( rol = '' ) => {
@@ -30,8 +31,34 @@ const coleccionesPermitidas = ( coleccion = '', coleccionesPermitidas = [] ) => 
     return true;
 }
 
+const existeCategoria = async( id = '' ) => {
+    const categoriaExistente = await Categoria.findById( id );
+    if( !categoriaExistente ){
+        throw new Error(`El id no pertence a ninguna categoria ${ id }`);
+    }
+}
+
+const validarPrecio = ( precio = 0 ) => {
+    if( precio <= 0 ){
+        throw new Error('El precio ingresado debe de ser mayor a 0')
+    }
+
+    return true;
+}
+
+const validarExistencia = ( existencia = 0 ) => {
+    if( existencia <= 0 ){
+        throw new Error('La existencia ingresada debe de ser mayor a 0')
+    }
+
+    return true;
+}
+
 module.exports = {
     coleccionesPermitidas,
     esRolValido,
+    existeCategoria,
+    validarExistencia,
+    validarPrecio,
     usernameExiste
 }
