@@ -1,29 +1,24 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Producto } from '../../interfaces/producto.intarface';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProductoService } from '../../services/producto.service';
 import { Observable } from 'rxjs';
+import { ProductoService } from '../../services/producto.service';
 
 @Component({
-  selector: 'app-card',
-  templateUrl: './card.component.html',
+  selector: 'app-sell-card',
+  templateUrl: './sell-card.component.html',
   styles: [
   ]
 })
-export class CardComponent implements OnInit {
+export class SellCardComponent {
 
   @Input() producto!: Producto;
   imagenObservable!: Observable<Blob|undefined>;
 
-  miFormulario: FormGroup = this.fb.group({
-    existenciaLlevar: [ '', [Validators.required, Validators.min( 1 )]]
-  });
-
   imagenUrl: string = '';
-  constructor( private fb: FormBuilder,
-               private productoService: ProductoService ){}
+  constructor( private productoService: ProductoService ){}
 
   ngOnInit(): void {
+    
     if ( !this.producto ) throw Error('Producto property is required');
 
     this.productoService.getImgById(this.producto._id).subscribe(
@@ -37,11 +32,5 @@ export class CardComponent implements OnInit {
     );
 
   }
-
-  agregar(): void {
-
-  }
-
-
 
 }

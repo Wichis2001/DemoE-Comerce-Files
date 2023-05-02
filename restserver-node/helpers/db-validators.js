@@ -1,5 +1,6 @@
 const { Role,
         Categoria,
+        Producto,
         Usuario } = require('../models')
 
 const esRolValido = async ( rol = '' ) => {
@@ -10,6 +11,13 @@ const esRolValido = async ( rol = '' ) => {
     };
 
 };
+
+const existeUsuarioById = async ( id = '' ) => {
+    const existeUsuario = await Usuario.findById( id );
+    if( !existeUsuario ){
+        throw new Error(` El id no existe ${ id } `);
+    }
+}
 
 const usernameExiste = async ( nombre = '' ) => {
 
@@ -38,6 +46,15 @@ const existeCategoria = async( id = '' ) => {
     }
 }
 
+const existeProducto = async( id = '' ) => {
+    const productoExistente = await Producto.findById( id );
+    if( !productoExistente ){
+        throw new Error(`El id no pertence a ningun producto ${ id }`)
+    }
+
+    return true;
+}
+
 const validarPrecio = ( precio = 0 ) => {
     if( precio <= 0 ){
         throw new Error('El precio ingresado debe de ser mayor a 0')
@@ -58,6 +75,8 @@ module.exports = {
     coleccionesPermitidas,
     esRolValido,
     existeCategoria,
+    existeProducto,
+    existeUsuarioById,
     validarExistencia,
     validarPrecio,
     usernameExiste

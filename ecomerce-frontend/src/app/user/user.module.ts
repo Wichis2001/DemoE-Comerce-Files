@@ -13,6 +13,9 @@ import { SalePageComponent } from './pages/sale-page/sale-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { CardComponent } from './components/card/card.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProductPageComponent } from './pages/product-page/product-page.component';
+import { SellCardComponent } from './components/sell-card/sell-card.component';
+import { AddPageComponent } from './pages/add-page/add-page.component';
 
 
 @NgModule({
@@ -24,7 +27,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     ShoppingPageComponent,
     SalePageComponent,
     SearchPageComponent,
-    CardComponent
+    CardComponent,
+    ProductPageComponent,
+    SellCardComponent,
+    AddPageComponent
   ],
   imports: [
     CommonModule,

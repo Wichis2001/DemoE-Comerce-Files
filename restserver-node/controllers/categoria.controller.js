@@ -7,9 +7,7 @@ const obtenerCategorias = async ( req, res = response ) => {
 
     const categorias =  await Categoria.find( query )
 
-    res.status( 200 ).json({
-        categorias
-    })
+    res.status( 200 ).json( categorias )
 }
 
 module.exports = {

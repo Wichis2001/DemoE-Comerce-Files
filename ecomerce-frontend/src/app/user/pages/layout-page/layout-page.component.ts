@@ -30,9 +30,14 @@ export class LayoutPageComponent {
       url: './cart'
     },
     {
+      label: 'Vender',
+      icon: 'add',
+      url: './new-sale'
+    },
+    {
       label: 'Ventas',
       icon: 'paid',
-      url: './new-sale'
+      url: './sales'
     },
     {
       label: 'Pedidos',

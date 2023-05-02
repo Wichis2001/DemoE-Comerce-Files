@@ -38,7 +38,64 @@ const obtenerProductos = async ( req, res = response ) => {
 
 }
 
+const obtenerProductosEnVenta = async ( req, res = response ) => {
+    const { id } = req.params;
+    const query = { estado: true , usuario: id };
+
+    const productos = await Producto.find( query )
+                                    .populate('usuario', '_id')
+                                    .populate('usuario', 'nombre')
+                                    .populate('categoria','nombre')
+
+
+    res.status( 200 ).json( productos )
+
+}
+
+const obtenerProducto = async ( req, res = response ) => {
+
+    const { id } = req.params;
+
+    const producto = await Producto.findById( id )
+                                     .populate('usuario', 'nombre')
+                                     .populate('categoria','nombre');
+
+    res.status( 200 ).json( producto )
+
+}
+
+const actualizarProducto = async ( req, res = response ) => {
+
+    const { id } = req.params;
+    const { estado, usuario, ...data} = req.body;
+
+    if( data.nombre ){
+
+        data.nombre = data.nombre.toUpperCase();
+
+    }
+    data.usuario= req.usuario._id;
+
+    const producto = await Producto.findByIdAndUpdate( id, data, { new: true } );
+
+    res.status( 200 ).json( producto );
+
+}
+
+const borrarProducto = async ( req, res = response ) => {
+
+    const { id } = req.params;
+
+    const productoEliminado = await Producto.findByIdAndUpdate( id, { estado: false }, { new: true } );
+
+    res.json( productoEliminado );
+}
+
 module.exports = {
+    actualizarProducto,
+    borrarProducto,
     crearProducto,
-    obtenerProductos
+    obtenerProducto,
+    obtenerProductos,
+    obtenerProductosEnVenta
 }

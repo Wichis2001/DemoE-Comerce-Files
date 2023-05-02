@@ -7,6 +7,9 @@ import { ListPageComponent } from './pages/list-page/list-page.component';
 import { ShoppingPageComponent } from './pages/shopping-page/shopping-page.component';
 import { OrderPageComponent } from './pages/order-page/order-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { CardComponent } from './components/card/card.component';
+import { ProductPageComponent } from './pages/product-page/product-page.component';
+import { AddPageComponent } from './pages/add-page/add-page.component';
 
 const routes: Routes = [
   {
@@ -18,12 +21,16 @@ const routes: Routes = [
         component: CartPageComponent
       },
       {
-        path: 'new-sale',
+        path: 'sales',
         component: SalePageComponent
       },
       {
+        path: 'new-sale',
+        component: AddPageComponent
+      },
+      {
         path: 'edit/:id',
-        component: SalePageComponent
+        component: AddPageComponent
       },
       {
         path: 'list',
@@ -40,6 +47,10 @@ const routes: Routes = [
       {
         path: 'search',
         component: SearchPageComponent
+      },
+      {
+        path: ':id',
+        component: ProductPageComponent
       },
       {
         path: '**',

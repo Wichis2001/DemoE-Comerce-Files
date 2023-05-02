@@ -55,7 +55,7 @@ export class AuthService {
                             nombre: res.usuario!.nombre,
                             rol:  res.usuario!.rol,
                             estado: res.usuario!.estado!,
-                            uid: res.usuario!.rol
+                            uid: res.usuario!.uid
                           }
                         }
                       }),
@@ -78,7 +78,7 @@ export class AuthService {
               nombre: res.usuario!.nombre,
               rol:  res.usuario!.rol,
               estado: res.usuario!.estado!,
-              uid: res.usuario!.rol
+              uid: res.usuario!.uid
             }
             return res.ok;
           }),
