@@ -46,9 +46,10 @@ export class ProductoService {
   }
 
   addProducto( producto: Producto ): Observable<Producto> {
+    const { _id, ...resto } = producto;
     const headers = new HttpHeaders()
       .set('x-token', localStorage.getItem('token') || '' );
-    return this.http.post<Producto>(`${ this.baseUrl }/productos`, producto, { headers } );
+    return this.http.post<Producto>(`${ this.baseUrl }/productos`, resto, { headers } )
   }
 
   updateProducto( producto: Producto ): Observable<Producto> {

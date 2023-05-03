@@ -97,6 +97,9 @@ const mostrarImagen = async ( req, res = response ) => {
 
 }
 
+
+
+
 module.exports = {
     actualizarImagen,
     cargarArchivo,

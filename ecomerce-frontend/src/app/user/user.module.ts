@@ -16,6 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ProductPageComponent } from './pages/product-page/product-page.component';
 import { SellCardComponent } from './components/sell-card/sell-card.component';
 import { AddPageComponent } from './pages/add-page/add-page.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { ProductoImagenPipe } from './pipes/producto-imagen.pipe';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { AddPageComponent } from './pages/add-page/add-page.component';
     CardComponent,
     ProductPageComponent,
     SellCardComponent,
-    AddPageComponent
+    AddPageComponent,
+    ConfirmDialogComponent,
+    ProductoImagenPipe
   ],
   imports: [
     CommonModule,

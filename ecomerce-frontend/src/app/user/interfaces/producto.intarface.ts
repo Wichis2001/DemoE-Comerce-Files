@@ -9,7 +9,8 @@ export interface Producto {
   existencia:   number;
   aprobado:     boolean;
   categoria:    TipoCategoria;
-
+  imagen?:      string;
+  ok?:          boolean;
 }
 
 export interface UsuarioProducto {

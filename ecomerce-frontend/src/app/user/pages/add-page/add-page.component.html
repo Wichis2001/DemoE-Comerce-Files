@@ -12,78 +12,89 @@
     <mat-card>
       <mat-card-content>
 
-        <form class="grid" [formGroup]="miFormulario" (ngSubmit)="onSubmit()">
+        <form class="grid"
+              autocomplete="off"
+              [formGroup]="miFormulario">
+
+          <mat-form-field class="col-12">
+
+            <mat-label>Nombre</mat-label>
+            <input
+              matInput
+              type="text"
+              required
+              formControlName="nombre"
+            />
+
+          </mat-form-field>
 
           <mat-form-field class="col-12 sm:col-6">
-            <mat-label>Super héroe</mat-label>
+            <mat-label>Precio</mat-label>
             <input
               matInput
-              type="text"
+              type="number"
               required
-              formControlName="superhero"
+              min="1"
+              formControlName="precio"
             />
           </mat-form-field>
 
           <mat-form-field class="col-12 sm:col-6">
-            <mat-label>Alter ego</mat-label>
+            <mat-label>Existencia</mat-label>
             <input
               matInput
-              type="text"
+              type="number"
+              min="1"
               required
-              formControlName="alter_ego"
+              formControlName="existencia"
             />
           </mat-form-field>
 
 
           <mat-form-field class="col-12">
-            <mat-label>Primera aparición</mat-label>
-            <input
-              matInput
-              type="text"
-              required
-              formControlName="first_appearance"
-            />
+
+            <mat-label>Descripción</mat-label>
+            <textarea matInput
+                      type="text"
+                      required
+                      formControlName="descripcion">
+            </textarea>
+
           </mat-form-field>
 
           <mat-form-field class="col-12">
-            <mat-label>Personajes</mat-label>
-            <input
-              matInput
-              type="text"
-              required
-              formControlName="characters"
-            />
-          </mat-form-field>
-
-          <mat-form-field class="col-12">
-            <mat-label>Creador</mat-label>
+            <mat-label>Categoria</mat-label>
             <mat-select
-              formControlName="publisher"
+              formControlName="categoria"
               required
             >
-              <mat-option *ngFor="let publisher of publishers"
-                [value]="publisher.id">
-                {{ publisher.desc }}
+              <mat-option *ngFor="let categoria of categorias"
+                [value]="categoria._id">
+                {{ categoria.nombre }}
               </mat-option>
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field class="col-12">
-            <mat-label>Alternative Image</mat-label>
-            <input
-              matInput
-              type="text"
-              formControlName="alt_img"
-            />
-          </mat-form-field>
+          <div class="col-12">
+            <mat-label>
+              Imagen
+              <mat-icon >add_photo_alternate</mat-icon>
+            </mat-label>
+            <input type="file"
+                   (change)="cambiarImagen($event)"
+                   accept="image/*"
+                   multiple="false">
+          </div>
+
+
 
 
         </form>
 
         <div class="flex justify-content-between">
           <button
-            *ngIf="currentHero.id"
-            (click)="onDeleteHero()"
+            *ngIf="currentProducto._id"
+            (click)="onDeleteProducto()"
             mat-flat-button
             color="warn"
           >
@@ -94,6 +105,8 @@
           <button
             mat-flat-button
             color="primary"
+            type="submit"
+            [disabled]="miFormulario.invalid"
             (click)="onSubmit()"
           >
             <mat-icon>save</mat-icon>
@@ -105,10 +118,12 @@
     </mat-card>
   </div>
 
-  <div class="col-12 sm:col-6">
+  <div class="col-12 sm:col-6 ">
 
-    <mat-card>
-      <img [src]="currentHero | heroImage" alt="imagen del héroe" mat-card-image>
+    <mat-card class="justify-content-center">
+
+      <img *ngIf="!imgTemp" [src]="currentProducto | productoImagen" mat-card-image>
+      <img *ngIf="imgTemp" [src]="imgTemp" mat-card-image>
     </mat-card>
 
   </div>
