@@ -31,7 +31,7 @@ export class LoginPageComponent {
     this.authService.login( nombre, password )
                         .subscribe( ok => {
                           if( ok === true ){
-                            this.showSnackbar(`${this.authService.usuario.nombre [0].toUpperCase()}${this.authService.usuario.nombre.substring(1)} se ha iniciado tu sesión correctamente`)
+                            this.showSnackbar(`${this.authService.usuario.nombre[0].toUpperCase()}${this.authService.usuario.nombre.substring(1)} se ha iniciado tu sesión correctamente`)
 
 
                             switch ( this.authService.usuario.rol ) {
@@ -39,7 +39,12 @@ export class LoginPageComponent {
                               case 'COMMON_ROLE':
                                 this.router.navigateByUrl('/user');
                               break;
-
+                              case 'PACKAGE_ROLE':
+                                this.router.navigateByUrl('/package')
+                              break;
+                              case 'ADMIN_ROLE':
+                                this.router.navigateByUrl('/admin')
+                              break;
                               default:
                                 break;
                             }

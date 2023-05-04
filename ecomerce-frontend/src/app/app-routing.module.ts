@@ -20,6 +20,18 @@ const routes: Routes = [
     canLoad: [ ValidarTokenGuard ]
   },
   {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then( m => m.AdminModule),
+    canActivate: [ ValidarTokenGuard ],
+    canLoad: [ ValidarTokenGuard ]
+  },
+  {
+    path: 'package',
+    loadChildren: () => import('./package/package.module').then( m => m.PackageModule),
+    canActivate: [ ValidarTokenGuard ],
+    canLoad: [ ValidarTokenGuard ]
+  },
+  {
     path: '400',
     component: Error400PageComponent
   },

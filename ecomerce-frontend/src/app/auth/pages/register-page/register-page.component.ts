@@ -26,7 +26,6 @@ export class RegisterPageComponent {
 
   registro(){
     const { nombre, password } = this.miFormulario.value;
-    
 
     this.authService.registro( nombre, password )
                         .subscribe( ok => {
