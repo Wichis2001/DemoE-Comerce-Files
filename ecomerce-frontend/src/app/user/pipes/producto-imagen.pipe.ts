@@ -3,19 +3,19 @@ import { Producto } from '../interfaces/producto.intarface';
 import { environment } from 'src/environments/environment';
 
 @Pipe({
-  name: 'productoImagen'
+  name: 'productoImagen',
+  pure: false
 })
 export class ProductoImagenPipe implements PipeTransform {
 
-  transform( producto: Producto ): string {
+  transform( producto: Producto  ): string {
 
-    if ( !producto._id && !producto.imagen ) {
-      return 'assets/images/no-image.jpg';
-    }
+  if ( producto.img ) {
 
-    if ( producto.imagen ) return `${ environment.baseUrl }/upload/productos/${ producto.imagen }`; // https:///google.com/flash.png
+    return `${ environment.baseUrl }/uploads/productos/${ producto._id }`;
+  }
 
-    return 'assets/images/no-image.jpg';
+  return `assets/images/no-image.jpg`;
   }
 
 }

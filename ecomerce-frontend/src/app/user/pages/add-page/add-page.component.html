@@ -122,7 +122,7 @@
 
     <mat-card class="justify-content-center">
 
-      <img *ngIf="!imgTemp" [src]="currentProducto | productoImagen" mat-card-image>
+      <img *ngIf="!imgTemp" [src]=" productoTmp | productoImagen" mat-card-image>
       <img *ngIf="imgTemp" [src]="imgTemp" mat-card-image>
     </mat-card>
 

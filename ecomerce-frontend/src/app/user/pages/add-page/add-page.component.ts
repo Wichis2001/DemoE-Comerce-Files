@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, MinValidator, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, MinValidator, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
 
 
 import Swal from 'sweetalert2';
+import { FileUploadService } from '../../services/file-upload.service';
 
 @Component({
   selector: 'app-add-page',
@@ -19,6 +20,12 @@ import Swal from 'sweetalert2';
   `]
 })
 export class AddPageComponent {
+  public categorias!: TipoCategoria[];
+  public imagenSubir!: File;
+  public imgTemp: any = null;
+  public productoTmp!: Producto;
+
+
   miFormulario: FormGroup = this.fb.group({
           _id:          [''],
           nombre:       ['', [Validators.required, Validators.minLength(4)]],
@@ -29,20 +36,21 @@ export class AddPageComponent {
           existencia:   new FormControl<number>(1, {
                             validators: [Validators.required, Validators.min(1)]
                         }),
-          categoria: new FormControl<Categoria>( Categoria.Decoración ),
+                        categoria: new FormControl<TipoCategoria>({
+                          _id:  '',
+                          nombre: ''
+                        }, {
+                          validators: [Validators.required]
+                        })
   });
-
-  public categorias!: TipoCategoria[];
-  public imagenSubir!: File;
-  public imgTemp: any = null;
-
 
   constructor( private productoService: ProductoService,
                private activatedRoute: ActivatedRoute,
                private router: Router,
                private snackbar: MatSnackBar,
                private dialog: MatDialog,
-               private fb: FormBuilder) {}
+               private fb: FormBuilder,
+               private fileService: FileUploadService) {}
 
   get currentProducto(): Producto {
     const producto = this.miFormulario.value as Producto;
@@ -54,6 +62,7 @@ export class AddPageComponent {
     this.productoService.getCategorias()
                             .subscribe( categorias => this.categorias = categorias );
 
+    this.productoTmp = this.currentProducto;
     if ( !this.router.url.includes('edit') ) return;
 
     this.activatedRoute.params
@@ -64,7 +73,8 @@ export class AddPageComponent {
         if ( !producto ) {
           return this.router.navigateByUrl('/sales');
         }
-
+        this.productoTmp = producto;
+        console.log( producto );
         this.miFormulario.reset( producto );
         return;
       });
@@ -82,12 +92,15 @@ export class AddPageComponent {
 
       return;
     }
-    console.log( this.currentProducto );
+
     this.productoService.addProducto( this.currentProducto )
       .subscribe( producto => {
-        // TODO: mostrar snackbar, y navegar a /heroes/edit/ hero.id
+       // TODO: mostrar snackbar, y navegar a /heroes/edit/ hero.id
+       this.actualizarImagen( producto );
        this.router.navigate(['/user/edit', producto._id ]);
+       console.log('NOS FUIMOS -------------------')
        this.showSnackbar(`${ producto.nombre } creado con éxito!`);
+
       });
 
 
@@ -113,6 +126,20 @@ export class AddPageComponent {
 
   }
 
+  actualizarImagen( producto: Producto ){
+    if( this.imgTemp ){
+      this.fileService.actualizarImagen( producto, this.imagenSubir )
+                                  .subscribe( ok => {
+                                    if( ok === true ){
+                                      this.productoTmp.img = this.fileService.nombreArchivo;
+
+                                    }else{
+
+                                      Swal.fire( 'Error', ok, 'error');
+                                    }
+      })
+    }
+  }
 
   showSnackbar( message: string ):void {
     this.snackbar.open( message, 'ok', {
@@ -141,19 +168,27 @@ export class AddPageComponent {
           title: 'Oops...',
           text: 'El archivo seleccionado no tiene un formato valido',
         })
+        this.imgTemp = null;
       }
-      this.imagenSubir = event.target.files[0];
+      //this.imagenSubir = event.target.files[0];
 
 
     } else {
       this.imgTemp = null;
     }
 
-
-
   }
 
+  categoriaValida(control: AbstractControl): ValidationErrors | null {
+    const categoriaId = control.value;
+    for (let i = 0; i < this.categorias.length; i++) {
+      if (!this.categorias[i]._id.includes(categoriaId)) {
+        return { categoriaInvalida: true };
+      }
 
+    }
+
+    return null;
+  }
 
 }
-

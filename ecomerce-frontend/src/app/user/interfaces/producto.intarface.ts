@@ -9,9 +9,12 @@ export interface Producto {
   existencia:   number;
   aprobado:     boolean;
   categoria:    TipoCategoria;
-  imagen?:      string;
+  img?:         string;
   ok?:          boolean;
+
 }
+
+
 
 export interface UsuarioProducto {
   _id:         string;
@@ -24,10 +27,10 @@ export interface TipoCategoria {
 }
 
 export enum Categoria {
-  Tecnología = "Tecnología",
-  Hogar = "Hogar",
-  Académico = "Académico",
-  Literatura = "Literatura",
-  Decoración = "Decoración",
-  Otros = "Otros"
+  Tecnología = "644fdcfe62ebd0d1c9702f68",
+  Hogar = "644fdcfe62ebd0d1c9702f69",
+  Académico = "644fdcfe62ebd0d1c9702f6a",
+  Literatura = "644fdcfe62ebd0d1c9702f6b",
+  Decoración = "644fdcfe62ebd0d1c9702f6c",
+  Otros = "644fdcfe62ebd0d1c9702f6d"
 }

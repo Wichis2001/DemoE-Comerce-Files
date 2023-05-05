@@ -25,3 +25,8 @@ export enum Estado {
   enCurso = 'EN_CURSO',
   entregado = 'ENTREGADO'
 }
+export interface FileUploadResponse {
+  nombreArchivo?:   string;
+  msg           :   string;
+  ok            :   boolean
+}

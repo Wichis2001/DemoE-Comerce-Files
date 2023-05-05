@@ -52,12 +52,17 @@ const actualizarImagen = async ( req, res = response ) => {
     }
 
     modelo.img = await subirArchivo( req.files, undefined, coleccion );
+    const nombreArchivo = modelo.img;
     await modelo.save();
 
-    res.json( modelo );
+    res.json( {
+      nombreArchivo,
+      ok: true,
+      msg: 'Archivo subido correctamente'
+    });
 
   } catch( msg ){
-    res.status( 400 ).json({ msg })
+    res.status( 400 ).json({ msg, ok: false })
   }
 
 };
