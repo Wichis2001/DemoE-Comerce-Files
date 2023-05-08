@@ -1,7 +1,7 @@
 <h1>
   {{ currentProducto._id ? 'Editar' : 'Agregar' }}
   producto
-  <small *ngIf="currentProducto._id">{{ currentProducto.nombre }}</small>
+  <small *ngIf="currentProducto._id">{{ currentProducto.nombre | titlecase }}</small>
 </h1>
 
 <mat-divider class="mb-2"></mat-divider>

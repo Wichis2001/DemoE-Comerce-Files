@@ -18,7 +18,9 @@ export class ProductoService {
                private authSerive: AuthService ) { }
 
   getProductos():Observable<Producto[]> {
-    return this.http.get<Producto[]>(`${ this.baseUrl }/productos`);
+    const headers = new HttpHeaders()
+      .set('x-token', localStorage.getItem('token') || '' );
+    return this.http.get<Producto[]>(`${ this.baseUrl }/productos`, { headers});
   }
 
   getImgById( id: string ): Observable<Blob|undefined> {
@@ -56,7 +58,7 @@ export class ProductoService {
     if ( !producto._id ) throw Error('Producto id is required');
     const headers = new HttpHeaders()
       .set('x-token', localStorage.getItem('token') || '' );
-    return this.http.patch<Producto>(`${ this.baseUrl }/productos/${ producto._id }`, producto, { headers });
+    return this.http.put<Producto>(`${ this.baseUrl }/productos/${ producto._id }`, producto, { headers });
   }
 
   deleteProductoById( id: string ): Observable<boolean> {
@@ -67,6 +69,12 @@ export class ProductoService {
         map( resp => true ),
         catchError( err => of(false) ),
       );
+  }
+
+  getSuggestions( query: string ): Observable<Producto[]> {
+    const headers = new HttpHeaders()
+      .set('x-token', localStorage.getItem('token') || '' );
+    return this.http.get<Producto[]>(`${ this.baseUrl }/buscar/productos/${ query }`, { headers });
   }
 
 

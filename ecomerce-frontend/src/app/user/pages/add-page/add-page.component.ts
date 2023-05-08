@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, MinValidator, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -11,6 +11,7 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
 
 import Swal from 'sweetalert2';
 import { FileUploadService } from '../../services/file-upload.service';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-add-page',
@@ -20,6 +21,7 @@ import { FileUploadService } from '../../services/file-upload.service';
   `]
 })
 export class AddPageComponent {
+  @ViewChild('categoriaSelect') categoriaSelect!: MatSelect;
   public categorias!: TipoCategoria[];
   public imagenSubir!: File;
   public imgTemp: any = null;
@@ -36,11 +38,8 @@ export class AddPageComponent {
           existencia:   new FormControl<number>(1, {
                             validators: [Validators.required, Validators.min(1)]
                         }),
-                        categoria: new FormControl<TipoCategoria>({
-                          _id:  '',
-                          nombre: ''
-                        }, {
-                          validators: [Validators.required]
+          categoria:    new FormControl<string>('', {
+                            validators: [Validators.required]
                         })
   });
 
@@ -59,8 +58,18 @@ export class AddPageComponent {
 
   ngOnInit(): void {
 
-    this.productoService.getCategorias()
-                            .subscribe( categorias => this.categorias = categorias );
+    this.productoService.getCategorias().subscribe(categorias => {
+      this.categorias = categorias;
+
+      if (this.productoTmp.categoria) {
+        const categoriaSeleccionada = this.categorias.find(
+          categoria => categoria._id === this.productoTmp.categoria._id
+        );
+        if (categoriaSeleccionada) {
+          this.miFormulario.get('categoria')?.setValue(categoriaSeleccionada);
+        }
+      }
+    });
 
     this.productoTmp = this.currentProducto;
     if ( !this.router.url.includes('edit') ) return;
@@ -74,9 +83,19 @@ export class AddPageComponent {
           return this.router.navigateByUrl('/sales');
         }
         this.productoTmp = producto;
-        console.log( producto );
+
         this.miFormulario.reset( producto );
+
+        if ( this.productoTmp.categoria ) {
+          const categoriaSeleccionada = this.categorias.find(
+                  categoria => categoria._id === this.productoTmp.categoria._id );
+          if ( categoriaSeleccionada ) {
+            this.miFormulario.get('categoria')?.setValue(categoriaSeleccionada._id);
+          }
+        }
+
         return;
+
       });
 
   }
@@ -85,11 +104,11 @@ export class AddPageComponent {
     if ( this.miFormulario.invalid ) return;
 
     if ( this.currentProducto._id ) {
-      //this.heroesService.updateHero( this.currentHero )
-      //  .subscribe( hero => {
-      //    this.showSnackbar(${ hero.superhero } updated!);
-      //  });
-
+      this.productoService.updateProducto( this.currentProducto )
+                            .subscribe( producto => {
+                              this.actualizarImagen( producto );
+                              this.showSnackbar( `${ producto.nombre } actualizado correctamente!`)
+                            });
       return;
     }
 
@@ -107,7 +126,8 @@ export class AddPageComponent {
   }
 
   onDeleteProducto() {
-    if ( !this.currentProducto._id ) throw Error('Hero id is required');
+    console.log( this.currentProducto._id )
+    if ( !this.currentProducto._id ) throw Error('Producto id is required');
 
     const dialogRef = this.dialog.open( ConfirmDialogComponent, {
       data: this.miFormulario.value
@@ -120,7 +140,7 @@ export class AddPageComponent {
         filter( (wasDeleted: boolean) => wasDeleted ),
       )
       .subscribe(() => {
-        this.router.navigate(['/heroes']);
+        this.router.navigate(['/user/sales']);
       });
 
 

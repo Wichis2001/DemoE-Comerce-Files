@@ -18,7 +18,7 @@ export class SellCardComponent {
   constructor( private productoService: ProductoService ){}
 
   ngOnInit(): void {
-    
+
     if ( !this.producto ) throw Error('Producto property is required');
 
     this.productoService.getImgById(this.producto._id).subscribe(

@@ -4,6 +4,8 @@ import { ProductoService } from '../../services/producto.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { VentaService } from '../../services/venta.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-product-page',
@@ -12,14 +14,16 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   ]
 })
 export class ProductPageComponent implements OnInit{
-  public producto?: Producto;
+  public producto!: Producto;
   imagenUrl: string = '';
 
   constructor(
     private productoService: ProductoService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private ventasService: VentaService,
+    private snackbar: MatSnackBar
   ) {}
 
   miFormulario: FormGroup = this.fb.group({
@@ -55,7 +59,16 @@ export class ProductPageComponent implements OnInit{
   }
 
   agregar(): void {
+    const existenciaLlevar = this.miFormulario.get('existenciaLlevar')?.value;
+    const subTotal = this.producto.precio * existenciaLlevar
+    this.ventasService.agregarDetalleVenta( this.producto, subTotal, existenciaLlevar );
+    this.showSnackbar(`${ this.producto.nombre } agregar correctamente`)
+  }
 
+  showSnackbar( message: string ):void {
+    this.snackbar.open( message, 'ok', {
+      duration: 2500,
+    })
   }
 
 }

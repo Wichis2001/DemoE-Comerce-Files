@@ -63,7 +63,8 @@
               mat-raised
               color="primary"
               type="submit"
-              [disabled]="miFormulario.invalid">
+              [disabled]="miFormulario.invalid"
+              (click)="agregar()">
         <mat-icon mat-icon>add_shopping_cart</mat-icon>
           Agregar
       </button>

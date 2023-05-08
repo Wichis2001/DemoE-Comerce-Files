@@ -1,19 +1,18 @@
-import { Producto } from "./producto.intarface"
+import { Producto } from "./producto.intarface";
 
 export interface Venta {
-  total:              number;
-  fecha:              Date;
-  usuario_vendedor:   UsuarioVenta;
-  usuario_comprador:  UsuarioVenta;
   estado?:            Estado;
+  fecha?:             Date;
   fecha_entrega:      Date;
+  usuario_comprador:  UsuarioVenta;
+  total:              number;
+  productos:          DetalleVenta[];
 }
 
 export interface DetalleVenta {
-  venta?:       Venta;
   producto:     Producto;
+  sub_total:    number;
   cantidad:     number;
-  precio_venta: number;
 }
 
 export interface UsuarioVenta {

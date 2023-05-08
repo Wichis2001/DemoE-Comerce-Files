@@ -18,7 +18,7 @@ import { SellCardComponent } from './components/sell-card/sell-card.component';
 import { AddPageComponent } from './pages/add-page/add-page.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { ProductoImagenPipe } from './pipes/producto-imagen.pipe';
-
+import { CartComponent } from './components/cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,8 @@ import { ProductoImagenPipe } from './pipes/producto-imagen.pipe';
     SellCardComponent,
     AddPageComponent,
     ConfirmDialogComponent,
-    ProductoImagenPipe
+    ProductoImagenPipe,
+    CartComponent
   ],
   imports: [
     CommonModule,

@@ -25,8 +25,7 @@ const crearProducto = async ( req, res = response ) => {
 }
 
 const obtenerProductos = async ( req, res = response ) => {
-
-    const query = { estado: true, aprobado: true };
+    const query = { estado: true, aprobado: true, usuario: { $ne:  req.usuario } };
 
     const productos = await Producto.find( query )
                                     .populate('usuario', '_id')

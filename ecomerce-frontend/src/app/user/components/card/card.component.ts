@@ -3,6 +3,8 @@ import { Producto } from '../../interfaces/producto.intarface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductoService } from '../../services/producto.service';
 import { Observable } from 'rxjs';
+import { VentaService } from '../../services/venta.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-card',
@@ -21,7 +23,9 @@ export class CardComponent implements OnInit {
 
   imagenUrl: string = '';
   constructor( private fb: FormBuilder,
-               private productoService: ProductoService ){}
+               private snackbar: MatSnackBar,
+               private productoService: ProductoService,
+               private ventasService: VentaService ){}
 
   ngOnInit(): void {
     if ( !this.producto ) throw Error('Producto property is required');
@@ -39,7 +43,16 @@ export class CardComponent implements OnInit {
   }
 
   agregar(): void {
+    const existenciaLlevar = this.miFormulario.get('existenciaLlevar')?.value;
+    const subTotal = this.producto.precio * existenciaLlevar
+    this.ventasService.agregarDetalleVenta( this.producto, subTotal, existenciaLlevar );
+    this.showSnackbar(`${ this.producto.nombre } agregar correctamente`)
+  }
 
+  showSnackbar( message: string ):void {
+    this.snackbar.open( message, 'ok', {
+      duration: 2500,
+    })
   }
 
 

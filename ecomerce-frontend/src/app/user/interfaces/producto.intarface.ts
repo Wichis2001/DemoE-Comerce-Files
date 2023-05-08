@@ -1,10 +1,8 @@
-
-
 export interface Producto {
   _id:          string;
   nombre:       string;
   descripcion:  string;
-  precio:       string;
+  precio:       number;
   usuario:      UsuarioProducto;
   existencia:   number;
   aprobado:     boolean;
@@ -13,8 +11,6 @@ export interface Producto {
   ok?:          boolean;
 
 }
-
-
 
 export interface UsuarioProducto {
   _id:         string;

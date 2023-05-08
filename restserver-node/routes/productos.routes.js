@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 
 const { validarCampos,
         validarJWT,
-        tieneRole} = require('../middlewares');
+        esCommonRole} = require('../middlewares');
 
 const { existeCategoria,
         validarPrecio,
@@ -21,7 +21,9 @@ const { crearProducto,
 const router = Router();
 
 //!Obtener todas las categorias - privado
-router.get( '/', obtenerProductos );
+router.get( '/', [
+    validarJWT,
+],obtenerProductos );
 
 router.get( '/venta/:id', [
     validarJWT,
@@ -59,7 +61,7 @@ router.put('/:id', [
 //* Borrar una categoría - privado - exclusivo admin
 router.delete('/:id', [
     validarJWT,
-    tieneRole(['COMMON_ROLE']),
+    esCommonRole,
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom( existeProducto ),
     validarCampos

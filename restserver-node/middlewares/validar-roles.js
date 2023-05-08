@@ -19,6 +19,25 @@ const esAdminRole = ( req = request, res = response, next ) => {
     next();
 }
 
+const esCommonRole = ( req = request, res = response, next ) => {
+
+    if( !req.usuario ) {
+        return res.status(500).json({
+            msg: 'Se quiere verificar el rol sin validar el token primero'
+        });
+    }
+
+    const { rol, nombre } = req.usuario;
+
+    if( rol !== 'COMMON_ROLE' ){
+        return res.status( 401 ).json({
+            msg: `${ nombre } no es administrador - No puede hacer esto`
+        });
+    }
+
+    next();
+}
+
 const tieneRole = ( ...roles ) => {
 
     return ( req, res = response , next ) => {
@@ -41,5 +60,6 @@ const tieneRole = ( ...roles ) => {
 
 module.exports = {
     esAdminRole,
+    esCommonRole,
     tieneRole
 }
