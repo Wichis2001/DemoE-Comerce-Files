@@ -15,8 +15,10 @@ class Server{
             buscar      : '/api/buscar',
             categorias  : '/api/categorias',
             productos   : '/api/productos',
+            tarjetas    : '/api/tarjetas',
             usuarios    : '/api/usuarios',
-            uploads     : '/api/uploads'
+            uploads     : '/api/uploads',
+            ventas      : '/api/ventas'
         }
 
         //!Middlewares Funciones que se ejecutan cuando levantemos el servidor
@@ -56,8 +58,10 @@ class Server{
         this.app.use( this.paths.buscar, require('../routes/buscar.routes') );
         this.app.use( this.paths.categorias, require('../routes/categorias.routes') );
         this.app.use( this.paths.productos, require('../routes/productos.routes') );
+        this.app.use( this.paths.tarjetas, require('../routes/tarjeta.routes') );
         this.app.use( this.paths.uploads, require('../routes/uploads.routes') );
         this.app.use( this.paths.usuarios, require('../routes/usuarios.routes') );
+        this.app.use( this.paths.ventas, require('../routes/venta.routes') );
     };
 
     listen(){
