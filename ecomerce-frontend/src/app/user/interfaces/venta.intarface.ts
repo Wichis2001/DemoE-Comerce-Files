@@ -3,8 +3,8 @@ import { Producto } from "./producto.intarface";
 export interface Venta {
   estado?:            Estado;
   fecha?:             Date;
-  fecha_entrega:      Date;
-  usuario_comprador:  UsuarioVenta;
+  fecha_entrega?:      Date;
+  usuario_comprador?: UsuarioVenta;
   total:              number;
   productos:          DetalleVenta[];
 }

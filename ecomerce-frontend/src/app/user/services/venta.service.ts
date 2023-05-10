@@ -1,18 +1,25 @@
 import { Producto } from './../interfaces/producto.intarface';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { DetalleVenta } from '../interfaces/venta.intarface';
+import { DetalleVenta, Venta } from '../interfaces/venta.intarface';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { SeguimientoPedido } from '../interfaces/seguimiento-pedido.interface';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VentaService {
 
+
   private baseUrl: string = environment.baseUrl;
   private _detalleVenta: DetalleVenta[] = [];
 
   private _total: number = 0;
   private _cantidad: number = 0;
+
+
+  constructor( private http: HttpClient ) { }
 
 
 
@@ -56,6 +63,29 @@ export class VentaService {
   vaciarCarrito(){
     this.detalleVenta.splice(0, this.detalleVenta.length);
 
+  }
+
+  postVenta( ){
+    const headers = new HttpHeaders()
+      .set('x-token', localStorage.getItem('token') || '' );
+    const venta: Venta = {
+      total: this.total,
+      productos: this.detalleVenta
+    }
+    console.log( venta )
+    return this.http.post<Venta>(`${ this.baseUrl }/ventas`, venta, { headers});
+  }
+
+  reiniciarVariables(){
+    this._total = 0;
+    this._cantidad = 0;
+    this._detalleVenta = []
+  }
+
+  getOrdenes():Observable<SeguimientoPedido[]> {
+    const headers = new HttpHeaders()
+      .set('x-token', localStorage.getItem('token') || '' );
+    return this.http.get<SeguimientoPedido[]>(`${ this.baseUrl }/ventas`, { headers});
   }
 
 }

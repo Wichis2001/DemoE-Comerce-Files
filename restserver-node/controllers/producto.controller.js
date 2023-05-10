@@ -37,6 +37,19 @@ const obtenerProductos = async ( req, res = response ) => {
 
 }
 
+const obtenerTodoslosProductos = async ( req, res = response ) => {
+    const query = { estado: true, aprobado: false, rechazado: false };
+
+    const productos = await Producto.find( query )
+                                    .populate('usuario', '_id')
+                                    .populate('usuario', 'nombre')
+                                    .populate('categoria','nombre')
+
+
+    res.status( 200 ).json( productos )
+
+}
+
 const obtenerProductosEnVenta = async ( req, res = response ) => {
     const { id } = req.params;
     const query = { estado: true , usuario: id };
@@ -74,6 +87,7 @@ const actualizarProducto = async ( req, res = response ) => {
 
     }
     data.usuario= req.usuario._id;
+    data.rechazado = false;
 
     const producto = await Producto.findByIdAndUpdate( id, data, { new: true } );
 
@@ -90,11 +104,39 @@ const borrarProducto = async ( req, res = response ) => {
     res.json( productoEliminado );
 }
 
+const aprobarProducto = async ( req, res = response ) => {
+
+    const { id } = req.params;
+
+    const { estado, usuario, ...data} = req.body;
+
+    data.aprobado = true;
+
+    const producto = await Producto.findByIdAndUpdate( id, data, { new: true } );
+
+    res.status( 200 ).json( producto );
+}
+
+const rechazarProducto = async ( req, res = response ) => {
+    const { id } = req.params;
+    
+    const { estado, usuario, ...data} = req.body;
+    data.aprobado = false;
+    data.rechazado = true
+
+    const producto = await Producto.findByIdAndUpdate( id, data, { new: true } );
+
+    res.status( 200 ).json( producto );
+}
+
 module.exports = {
     actualizarProducto,
+    aprobarProducto,
+    rechazarProducto,
     borrarProducto,
     crearProducto,
     obtenerProducto,
     obtenerProductos,
-    obtenerProductosEnVenta
+    obtenerProductosEnVenta,
+    obtenerTodoslosProductos
 }

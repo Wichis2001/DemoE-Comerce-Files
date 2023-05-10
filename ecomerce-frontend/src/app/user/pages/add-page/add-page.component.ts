@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, MinValidator, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -20,7 +20,7 @@ import { MatSelect } from '@angular/material/select';
 
   `]
 })
-export class AddPageComponent {
+export class AddPageComponent implements OnInit {
   @ViewChild('categoriaSelect') categoriaSelect!: MatSelect;
   public categorias!: TipoCategoria[];
   public imagenSubir!: File;

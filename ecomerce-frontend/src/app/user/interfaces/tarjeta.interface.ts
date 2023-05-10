@@ -1,5 +1,5 @@
 export interface Tarjeta {
-  propietario: TarjetaUser;
+  propietario?: TarjetaUser;
   tarjeta:     string;
 }
 

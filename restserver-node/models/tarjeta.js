@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 
 const TarjetaSchema = Schema({
-    propietario: {
+    usuario: {
         type: Schema.Types.ObjectId,
         ref: 'Usuario',
         required: [ true, 'El usuario al que está asociado la tarjeta es obligatoria' ]

@@ -9,7 +9,7 @@ const crearTarjeta = async ( req, res = response ) => {
     //!Generar Data que se va a almacenar
     const data = {
         usuario: req.usuario._id,
-        tarjeta
+        tarjeta: ocultarTarjeta( tarjeta )
     };
 
     const tarjetaUsuario = new Tarjeta( data )
@@ -24,11 +24,27 @@ const crearTarjeta = async ( req, res = response ) => {
 const obtenerTarjeta = async( req, res = response ) => {
 
     const query = { usuario: req.usuario._id };
-    const tarjeta = await Tarjeta.find( query )
+    const tarjetaEncontrada = await Tarjeta.find( query )
                                     .populate('usuario', '_id')
                                     .populate('usuario', 'nombre')
+    if( tarjetaEncontrada.length > 0 ){
+        const { tarjeta } = tarjetaEncontrada[0]
+        res.status( 200 ).json( {
+            tarjeta
+        })
+    } else {
+        res.status( 200 ).json( {
+            tarjeta: 'NO HAY'
+        })
+    }
+}
 
-    res.status( 200 ).json( tarjeta )
+const ocultarTarjeta = ( numeroTarjeta = '' ) => {
+    const ultimosDigitos = numeroTarjeta.slice( -4 );
+    const oculto = '*'.repeat(numeroTarjeta.length - 4 )
+
+    const resultado = oculto + ultimosDigitos;
+    return resultado;
 }
 
 module.exports = {

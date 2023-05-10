@@ -16,7 +16,10 @@ const { crearProducto,
         obtenerProductosEnVenta,
         obtenerProducto,
         actualizarProducto,
-        borrarProducto} = require('../controllers/producto.controller');
+        borrarProducto,
+        obtenerTodoslosProductos,
+        aprobarProducto,
+        rechazarProducto} = require('../controllers/producto.controller');
 
 const router = Router();
 
@@ -24,6 +27,8 @@ const router = Router();
 router.get( '/', [
     validarJWT,
 ],obtenerProductos );
+
+router.get( '/package', obtenerTodoslosProductos );
 
 router.get( '/venta/:id', [
     validarJWT,
@@ -49,6 +54,22 @@ router.post('/', [
     check('categoria').custom( existeCategoria ),
     validarCampos
 ], crearProducto );
+
+//? Actualizar - privado - cualquiera con un token valido
+router.put('/aprobar/:id', [
+    validarJWT,
+    check('id', 'No es un ID válido').isMongoId(),
+    check('id').custom( existeProducto ),
+    validarCampos
+], aprobarProducto );
+
+//? Actualizar - privado - cualquiera con un token valido
+router.put('/rechazar/:id', [
+    validarJWT,
+    check('id', 'No es un ID válido').isMongoId(),
+    check('id').custom( existeProducto ),
+    validarCampos
+], rechazarProducto );
 
 //? Actualizar - privado - cualquiera con un token valido
 router.put('/:id', [

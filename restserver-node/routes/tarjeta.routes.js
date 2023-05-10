@@ -12,7 +12,7 @@ const router = Router();
 //? Crear tarjeta - privado - cualquier persona con un token valido
 router.post('/', [
     validarJWT,
-    check('tarjeta', 'El número de tarjeta es obligatoria').not().isEmpty(),
+    check('tarjeta', 'La tarjeta es obligatoria y debe de contener 16 caracteres').isLength( { min: 16, max: 16 } ),
     validarCampos
 ], crearTarjeta );
 

@@ -41,6 +41,11 @@ const ProductoSchema = Schema({
         type: Boolean,
         required: true,
         default: true
+    },
+    rechazado: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 });
 

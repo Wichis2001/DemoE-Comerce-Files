@@ -6,6 +6,7 @@ export interface Producto {
   usuario:      UsuarioProducto;
   existencia:   number;
   aprobado:     boolean;
+  rechazado:    boolean;
   categoria:    TipoCategoria;
   img?:         string;
   ok?:          boolean;
