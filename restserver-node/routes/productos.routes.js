@@ -19,7 +19,8 @@ const { crearProducto,
         borrarProducto,
         obtenerTodoslosProductos,
         aprobarProducto,
-        rechazarProducto} = require('../controllers/producto.controller');
+        rechazarProducto,
+        clientesProductosOfreciendoVentas} = require('../controllers/producto.controller');
 
 const router = Router();
 
@@ -29,6 +30,8 @@ router.get( '/', [
 ],obtenerProductos );
 
 router.get( '/package', obtenerTodoslosProductos );
+
+router.get( '/ventas-producto', clientesProductosOfreciendoVentas );
 
 router.get( '/venta/:id', [
     validarJWT,
@@ -87,6 +90,5 @@ router.delete('/:id', [
     check('id').custom( existeProducto ),
     validarCampos
 ], borrarProducto);
-
 
 module.exports = router;

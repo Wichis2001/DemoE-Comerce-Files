@@ -24,9 +24,29 @@ export class LayoutPageComponent {
       url: './new-account'
     },
     {
-      label: 'Reportes',
-      icon: 'quick_reference_all',
-      url: './reports'
+      label: 'Top 10 Productos Más Vendidos',
+      icon: 'plagiarism',
+      url: './produtos-vendidos'
+    },
+    {
+      label: 'Top 5 Clientes Más Ganancias',
+      icon: 'plagiarism',
+      url: './clientes-ganancias'
+    },
+    {
+      label: 'Top 5 Clientes Más Ventas',
+      icon: 'plagiarism',
+      url: './clientes-ventas'
+    },
+    {
+      label: 'Top 10 Clientes Más Pedidos',
+      icon: 'plagiarism',
+      url: './clientes-pedidos'
+    },
+    {
+      label: 'Top 10 Clientes Más Productos en Venta',
+      icon: 'plagiarism',
+      url: './clientes-productos'
     }
   ]
 
